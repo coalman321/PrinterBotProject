@@ -10,11 +10,11 @@ public class ServoLogic {
                 spd=speed;
 	}
 	public double toTarget(int target, int current){
-		if(target - tol < current){
-			return -speed;
+		if(target < current - tol){
+			return (spd*-1);
 		}
-		else if(target + tol > current){
-			return speed;
+		else if(target > current + tol){
+			return spd;
 		}
 		else{
 			return 0.0;

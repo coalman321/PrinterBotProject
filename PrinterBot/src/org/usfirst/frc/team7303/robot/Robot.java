@@ -27,17 +27,11 @@ public class Robot extends IterativeRobot {
     SendableChooser chooser;
     public RobotDrive myBot;
     public Joystick stick1;
-    public Spark rightDrive;
-    public Spark leftDrive;
-    public Spark Shoulder;
-    public Spark Elbow;
-    public Spark Wrist;
+    public Spark rightDrive,leftDrive,Shoulder,Elbow,Wrist;
+    public VictorSR Extruder;
     public Gyro gyrox;
     public BNO055 sensor;
-    public ServoLogic Sh;
-    public ServoLogic El;
-    public ServoLogic Wr;
-	
+    public ServoLogic Sh,El,Wr;
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -49,11 +43,12 @@ public class Robot extends IterativeRobot {
     	Shoulder = new Spark(2);
     	Elbow = new Spark(3);
     	Wrist = new Spark(4);
+	Extruder = new VictorSR(5);
     	myBot = new RobotDrive(0, 1);
     	stick1 = new Joystick(1);
-    	Sh = new ServoLogic(5);
-    	El = new ServoLogic(1);
-    	Wr = new ServoLogic(1);
+    	Sh = new ServoLogic(5,0.5);
+    	El = new ServoLogic(1,0.2);
+    	Wr = new ServoLogic(1,0.2);
         chooser = new SendableChooser();
         chooser.addDefault("Default Auto", defaultAuto);
         chooser.addObject("My Auto", customAuto);
