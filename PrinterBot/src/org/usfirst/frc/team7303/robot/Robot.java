@@ -39,6 +39,8 @@ public class Robot extends IterativeRobot {
     public ServoLogic Wr;
     public Encoder Sho;
     public Encoder Elb;
+    private int shTarg;
+    private int elTarg;
 	
     /**
      * This function is run when the robot is first started up and should be
@@ -99,9 +101,15 @@ public class Robot extends IterativeRobot {
     /**
      * This function is called periodically during operator control
      */
+    public void teleopInit(){
+	elTarg = 0;
+        shTarg = 0;
+    	
+    }
+	
     public void teleopPeriodic() {
-	Sh.toTarget(40, Sho.get());
-	El.toTarget(40, Elb.get());
+	Sh.toTarget(shTarg, Sho.get());
+	El.toTarget(elTarg, Elb.get());
         Wr.toTarget(0, (int)this.angle());
 	
     }
