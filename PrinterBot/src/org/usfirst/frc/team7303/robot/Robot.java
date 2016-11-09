@@ -37,6 +37,8 @@ public class Robot extends IterativeRobot {
     public ServoLogic Sh;
     public ServoLogic El;
     public ServoLogic Wr;
+    public Encoder Sho;
+    public Encoder Elb;
 	
     /**
      * This function is run when the robot is first started up and should be
@@ -54,6 +56,9 @@ public class Robot extends IterativeRobot {
     	Sh = new ServoLogic(5);
     	El = new ServoLogic(1);
     	Wr = new ServoLogic(1);
+	sho = new Encoder(0,1);
+	Elb = new Encoder(2,3);
+	    
         chooser = new SendableChooser();
         chooser.addDefault("Default Auto", defaultAuto);
         chooser.addObject("My Auto", customAuto);
