@@ -3,12 +3,13 @@ package lib;
 public class ServoLogic {
 	private int target;
 	private int current;
-	private int tol;
-	public ServoLogic(int tolerance){
+	private int tol; 
+        Private int spd;
+	public ServoLogic(int tolerance,double speed){
 		tol=tolerance;
+                spd=speed;
 	}
 	public double toTarget(int target, int current){
-		double speed = 0.5;
 		if(target - tol < current){
 			return -speed;
 		}
