@@ -6,7 +6,7 @@ public class IncrementStick {
 	private int val;
 	public IncrementStick(int countBy, int begin){
 		count = begin;
-		val=begin;
+		val=countBy;
 	}
 	public int incVal(boolean inc){
 		count+=val;
