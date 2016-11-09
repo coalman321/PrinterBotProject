@@ -2,16 +2,18 @@ package lib;
 
 public class IncrementStick {
 	public Joystick Stick;
-	public int count;
-	public IncrementStick(Joystick stick){
-		Stick = stick;	
+	private int count;
+	private int val;
+	public IncrementStick(int countBy, int begin){
+		count = begin;
+		val=begin;
 	}
 	public int incVal(boolean inc){
-		count++;
+		count+=val;
 		return count;
 	}
 	public int decVal(boolean dec){
-		count--;
+		count-=val;
 		return count;
 	}
 		
