@@ -100,7 +100,10 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-        Sh.toTarget(10, (int)this.angle());
+	Sh.toTarget(40, Sho.get());
+	El.toTarget(40, Elb.get());
+        Wr.toTarget(0, (int)this.angle());
+	
     }
     
     /**
