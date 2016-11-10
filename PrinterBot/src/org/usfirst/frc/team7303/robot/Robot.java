@@ -1,12 +1,7 @@
 
 package org.usfirst.frc.team7303.robot;
 
-import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.Spark;
-import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -41,6 +36,8 @@ public class Robot extends IterativeRobot {
     public Encoder Elb;
     private int shTarg;
     private int elTarg;
+    public DigitalInput shSw;
+    public DigitalInput	elSw;
 	
     /**
      * This function is run when the robot is first started up and should be
@@ -60,6 +57,8 @@ public class Robot extends IterativeRobot {
     	Wr = new ServoLogic(1);
 	sho = new Encoder(0,1);
 	Elb = new Encoder(2,3);
+	shSw = new DigitalInput(9);
+	elSw = new DigitalInput(8);
 	    
         chooser = new SendableChooser();
         chooser.addDefault("Default Auto", defaultAuto);
@@ -102,16 +101,36 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopInit(){
+	int Elmax = 120;
 	elTarg = 0;
-        shTarg = 0;
-    	
+        shTarg = 132600;
+    	while(!elSw.get()){
+	    Elbow.set(1.0);
+    	}
+	Elbow.set(0.0);
+	Elbow.set(El.toTarget(Elmax,Elb.get()));
+	while(Elb.get() != Elmax){
+	    Timer.delay(5);
+	}
+	Elbow.set(0.0);
+	while(!shSw.get()){
+	    Shoulder.set(0.5);
+	}
+	Shoulder.set(0.0);
+	Shoulder.set(Sh.toTarget(Shomax,Sho.get()));
+	while(Sho.get() != shtarg){
+	    Timer.delay(5);
+	}
+	Shoulder.set(0.0);
     }
 	
     public void teleopPeriodic() {
-	Sh.toTarget(shTarg, Sho.get());
-	El.toTarget(elTarg, Elb.get());
-        Wr.toTarget(0, (int)this.angle());
-	
+	Shoudler.set(Sh.toTarget(shTarg, Sho.get()));
+	Elbow.set(El.toTarget(elTarg, Elb.get()));
+        Wrist.set(Wr.toTarget(0, (int)this.angle()));
+	while(elTarg != Elb.get()||shTarg != Sho.get()||0 != this.angle()){
+	    Timer.delay(5);
+	}
     }
     
     /**
