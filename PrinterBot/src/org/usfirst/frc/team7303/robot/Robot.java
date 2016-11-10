@@ -22,22 +22,12 @@ public class Robot extends IterativeRobot {
     SendableChooser chooser;
     public RobotDrive myBot;
     public Joystick stick1;
-    public Spark rightDrive;
-    public Spark leftDrive;
-    public Spark Shoulder;
-    public Spark Elbow;
-    public Spark Wrist;
-    public Gyro gyrox;
-    public BNO055 sensor;
-    public ServoLogic Sh;
-    public ServoLogic El;
-    public ServoLogic Wr;
-    public Encoder Sho;
-    public Encoder Elb;
-    private int shTarg;
-    private int elTarg;
-    public DigitalInput shSw;
-    public DigitalInput	elSw;
+    public Spark rightDrive,leftDrive,Shoulder,Elbow,Wrist;
+    public Gyro gyrox; public BNO055 sensor;
+    public ServoLogic Sh, El, Wr;
+    public Encoder Sho , Elb;
+    private int shTarg, elTarg;
+    public DigitalInput shSw,elSw;
 	
     /**
      * This function is run when the robot is first started up and should be
@@ -52,14 +42,13 @@ public class Robot extends IterativeRobot {
     	Wrist = new Spark(4);
     	myBot = new RobotDrive(0, 1);
     	stick1 = new Joystick(1);
-    	Sh = new ServoLogic(5);
-    	El = new ServoLogic(1);
-    	Wr = new ServoLogic(1);
-	sho = new Encoder(0,1);
-	Elb = new Encoder(2,3);
-	shSw = new DigitalInput(9);
-	elSw = new DigitalInput(8);
-	    
+    	Sh = new ServoLogic(10,5);
+    	El = new ServoLogic(1,1);
+    	Wr = new ServoLogic(1,1);
+    	Sho = new Encoder(0,1);
+    	Elb = new Encoder(2,3);
+    	shSw = new DigitalInput(9);
+    	elSw = new DigitalInput(8);
         chooser = new SendableChooser();
         chooser.addDefault("Default Auto", defaultAuto);
         chooser.addObject("My Auto", customAuto);
@@ -101,34 +90,34 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopInit(){
-	int Elmax = 120;
-	elTarg = 0;
-        shTarg = 132600;
+    	int Elmax = 120;
+		elTarg = 0;
+    	shTarg = 132600;
     	while(!elSw.get()){
-	    Elbow.set(1.0);
+    		Elbow.set(1.0);
     	}
-	Elbow.set(0.0);
-	Elbow.set(El.toTarget(Elmax,Elb.get()));
-	while(Elb.get() != Elmax){
-	    Timer.delay(5);
-	}
-	Elbow.set(0.0);
-	while(!shSw.get()){
-	    Shoulder.set(0.5);
-	}
-	Shoulder.set(0.0);
-	Shoulder.set(Sh.toTarget(Shomax,Sho.get()));
-	while(Sho.get() != shtarg){
-	    Timer.delay(5);
-	}
-	Shoulder.set(0.0);
+		Elbow.set(0.0);
+		Elbow.set(El.toTarget(Elmax,Elb.get()));
+		while(Elb.get() != Elmax){
+	    	Timer.delay(5);
+		}
+		Elbow.set(0.0);
+		while(!shSw.get()){
+			Shoulder.set(0.5);
+		}
+		Shoulder.set(0.0);
+		Shoulder.set(Sh.toTarget(shTarg,Sho.get()));
+		while(Sho.get() != shTarg){
+	    	Timer.delay(5);
+		}
+		Shoulder.set(0.0);
     }
 	
     public void teleopPeriodic() {
-	Shoudler.set(Sh.toTarget(shTarg, Sho.get()));
-	Elbow.set(El.toTarget(elTarg, Elb.get()));
-        Wrist.set(Wr.toTarget(0, (int)this.angle()));
-	while(elTarg != Elb.get()||shTarg != Sho.get()||0 != this.angle()){
+    	Shoulder.set(Sh.toTarget(shTarg, Sho.get()));
+    	Elbow.set(El.toTarget(elTarg, Elb.get()));
+    	Wrist.set(Wr.toTarget(0, (int)this.angle()));
+    	while(elTarg != Elb.get()||shTarg != Sho.get()||0 != this.angle()){
 	    Timer.delay(5);
 	}
     }
